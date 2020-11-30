@@ -1,0 +1,35 @@
+<%- include('partials/_header') %>
+
+<div class="container">
+    <form action="/edit/<%= pedido.id %> " method="POST">
+        <div class="form-group">
+    
+            <div class="row ml-1">
+                <label for="enteras">Enteras </label>
+            </div>
+            <input type="number" name="enteras" id="enteras" class="form-control mb-2" value=<%= pedido.enteras %>>
+    
+            <div class="row ml-1">
+                <label for="enteras">Descremadas </label>
+            </div>
+            <input type="number" name="descremadas" id="descremadas" class="form-control mb-2" value=<%= pedido.descremadas %>>
+    
+            <label for="celu">Celular</label>
+            <input type="number" name="celular" id="celular" class="form-control mb-2" value=<%= pedido.celular %>>
+    
+            <label for="punto_retiro">Punto de Retiro</label>
+            <select name="punto_retiro" id="punto_retiro" class="form-control mb-4">
+                <option value="" disabled selected>Elegí un punto de retiro</option>
+                <option value="D1">D1 - Distrito Sur</option>
+                <option value="D2">D2 - Distrito Sudoeste</option>
+                <option value="D3">D3 - Distrito Oeste</option>
+                <option value="D4">D4 - Distrito Noroeste</option>
+                <option value="D5">D5 - Distrito Norte</option>
+                <option value="D6">D6 - Distrito Centro</option>
+            </select>
+            <button type="submit" class="btn btn-success btn-block">Editar</button>
+        </div>
+    </form>
+</div>
+
+<%- include('partials/_footer') %>
