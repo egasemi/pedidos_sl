@@ -7,7 +7,7 @@ const app = express();
 
 // connecting to db
 
-mongoose.connect('mongodb://localhost:27018/sldb')
+mongoose.connect('mongodb+srv://egasemi:N2wtrmP3YWEXX0Pl@cluster0.jfaig.mongodb.net/sldb?retryWrites=true&w=majority')
     .then(db => console.log('db connected'))
     .catch(err => console.log(err))
 
