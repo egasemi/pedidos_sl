@@ -45,12 +45,9 @@ router.get('/pedido/delete/:id',async (req, res) => {
 
 router.get('/pedido/:id', async (req, res) => {
     const { id } = req.params;
-    console.log(req.params);
     const pedido = await Pedido.findById(id);
     const lugar = pedido.punto_retiro
-    console.log(lugar);
     const lugares = await Lugar.find({activo:true});
-    console.log(lugares)
     res.render('pedido',{
         pedido,
         lugares,
