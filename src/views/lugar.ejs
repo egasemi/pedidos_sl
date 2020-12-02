@@ -1,0 +1,77 @@
+<%- include('partials/_header') %>
+<div class="container mt-4">
+    <h1 class="display mt-4">Puntos de Retiro</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <% if (lugar) { %>
+                        <form action="/lugar/guardar/<%= lugar.id %> " method="POST">
+                    <% }else{ %>
+                        <form action="/lugar" method="POST">
+                       <% } %> 
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" name="nombre" id="nombre" class="form-control mb-1" value="<%= lugar ? lugar.nombre : '' %> ">
+
+                            <label for="direccion">Dirección</label>
+                            <input type="text" name="direccion" id="direccion" class="form-control mb-1" value="<%= lugar ? lugar.direccion :'' %> ">
+
+                            <label for="contacto">Contacto</label>
+                            <input type="number" name="contacto" id="contacto" class="form-control mb-1" value=<%= lugar ? lugar.contacto : '' %>>
+
+                            <% if (lugar) {%>
+                                <div class="row mt-4">
+                                    <div class="col">
+                                        <a href="/lugar/delete/<%= lugar.id %> " class="btn btn-outline-danger btn-block mb-4">Borrar</a>
+                                    </div>
+                                    <div class="col">
+                                        <button type="submit" class="btn btn-outline-primary btn-block">Guardar</a>
+                                    </div>
+                                </div>
+                            <% } else {%> 
+                                <button type="submit" class="btn btn-outline-success btn-block mt-3">Agregar</button>
+                                <% } %>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered mt-4">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <td scope="col">Nombre</td>
+                                    <td scope="col">Dirección</td>
+                                    <td scope="col">Contacto</td>
+                                    <td scope="col">Estado</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for(var i = 0;i < lista_lugares.length; i++) {%>
+                                    <tr id='<%= lista_lugares[i].id %>' scope="row" class="fila">
+                                        <td scope="col"><%= lista_lugares[i].nombre%></td>
+                                        <td scope="col"><%= lista_lugares[i].direccion%></td>
+                                        <td scope="col"><%= lista_lugares[i].contacto%></td>
+                                        <td scope="col"><a href="/activo/<%= lista_lugares[i]._id %>" 
+                                            class="btn btn-outline-<%= lista_lugares[i].activo ? 'success' : 'dark' %>  btn-block">
+                                        <%= lista_lugares[i].activo ? 'Activo' : 'Inactivo' %> </a></td>
+                                    </tr>
+                                    <%}%>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.fila').click(function() {
+        location.replace(`/lugar/${this.id}`);
+    })
+</script>
+<%- include('partials/_footer') %>

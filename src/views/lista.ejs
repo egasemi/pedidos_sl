@@ -1,31 +1,35 @@
 <%- include('partials/_header') %>
 <div class="container">
-    <table class="table table-hover table-bordered mt-4">
-        <thead class="thead-dark">
-            <tr>
-                <td scope="col">#</td>
-                <td scope="col">Enteras</td>
-                <td scope="col">Descremadas</td>
-                <td scope="col">Celular</td>
-                <td scope="col">Punto Retiro</td>
-                <td scope="col">Operaciones</td>
-            </tr>
-        </thead>
-        <tbody>
-            <% for(var i = 0;i < lista.length; i++) {%>
+    <h1 class="display mt-4">Pedidos</h1>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered mt-4">
+            <thead class="thead-dark">
                 <tr>
-                    <td scope="col"><%= i + 1%></td>
-                    <td scope="col"><%= lista[i].enteras%></td>
-                    <td scope="col"><%= lista[i].descremadas%></td>
-                    <td scope="col"><%= lista[i].celular%></td>
-                    <td scope="col"><%= lista[i].punto_retiro%></td>
-                    <td scope="col">
-                        <a href="edit/<%= lista[i].id %> " class="btn btn-primary">Editar</a>
-                        <a href="lista/delete/<%= lista[i]._id %> " class="btn btn-danger">Eliminar</a>
-                    </td>
+                    <td scope="col">#</td>
+                    <td scope="col">Enteras</td>
+                    <td scope="col">Descremadas</td>
+                    <td scope="col">Celular</td>
+                    <td scope="col">Punto Retiro</td>
                 </tr>
-                <%}%>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <% for(var i = 0;i < lista.length; i++) {%>
+                    <tr id='<%= lista[i].id %>' scope="row" class="fila">
+                        <td scope="col"><%= i + 1%></td>
+                        <td scope="col"><%= lista[i].enteras%></td>
+                        <td scope="col"><%= lista[i].descremadas%></td>
+                        <td scope="col"><%= lista[i].celular%></td>
+                        <td scope="col"><%= lista[i].punto_retiro%></td>
+                    </tr>
+                    <%}%>
+            </tbody>
+        </table>
+    </div>
+    <a href="/" class="btn btn-outline-success btn-block">Registrar Pedidos</a>
 </div>
+<script>
+    $('.fila').click(function() {
+        location.replace(`/pedido/${this.id}`);
+    })
+</script>
 <%- include('partials/_footer') %>

@@ -1,11 +1,12 @@
 const express = require('express');
-const pedidos = require('../models/pedidos');
 const router = express.Router();
 
 const Pedido = require('../models/pedidos');
+const Lugar = require('../models/lugar');
 
 router.get('/', async (req,res) => {
     const pedidos = await Pedido.find();
+    const lugares = await Lugar.find({activo:true});
     var ent = [];
     var desc = [];
     for(var i = 0; i < pedidos.length; i++) {
@@ -16,6 +17,7 @@ router.get('/', async (req,res) => {
     let totalDesc = desc.reduce((a,b) => a + b, 0);
     res.render('index', {
         pedidos,
+        lugares,
         totalDesc,
         totalEnt
     });
@@ -35,24 +37,31 @@ router.post('/add', async (req,res) => {
     res.redirect('/');
 });
 
-router.get('/lista/delete/:id',async (req, res) => {
+router.get('/pedido/delete/:id',async (req, res) => {
     const { id } = req.params;
-    await Pedido.remove({_id: id});
+    await Pedido.deleteOne({_id: id});
     res.redirect('/lista');
 })
 
-router.get('/edit/:id', async (req, res) => {
+router.get('/pedido/:id', async (req, res) => {
     const { id } = req.params;
+    console.log(req.params);
     const pedido = await Pedido.findById(id);
-    res.render('edit',{
-        pedido
+    const lugar = pedido.punto_retiro
+    console.log(lugar);
+    const lugares = await Lugar.find({activo:true});
+    console.log(lugares)
+    res.render('pedido',{
+        pedido,
+        lugares,
+        lugar
     });
 
 });
 
 router.post('/edit/:id', async (req, res) => {
     const { id } = req.params;
-    await Pedido.update({_id:id}, req.body);
+    await Pedido.updateOne({_id:id}, req.body);
     res.redirect('/lista');
 });
 
