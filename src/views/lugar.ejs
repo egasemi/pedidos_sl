@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="col-md-8">
-            <div class="card">
+            <div class="card mb-4 d-none d-sm-block">
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered mt-4">
@@ -62,6 +62,34 @@
                     </div>
                 </div>
             </div>
+            <div class="card-group d-block d-sm-none mt-4">
+                <% for (var i = 0;i < lista_lugares.length; i++) {%>
+                    <div class="card fila" id="<%= lista_lugares[i].id %>">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h4 class="card-title"><%= lista_lugares[i].nombre %></h4>
+                                </div>
+                                <div class="col">
+                                    <p class="card-text text-right"><%= lista_lugares[i].direccion %></p>
+                                </div>
+                            </div>
+                            <p class="card-text">Contacto: <%= lista_lugares[i].contacto %></p>
+                            <div class="row">
+                                <div class="col">
+                                    <a href="/activo/<%= lista_lugares[i]._id %>" 
+                                        class="btn btn-outline-<%= lista_lugares[i].activo ? 'success' : 'dark' %>  btn-block">
+                                    <%= lista_lugares[i].activo ? 'Activo' : 'Inactivo' %> </a>
+                                </div>
+                                <div class="col">
+                                    <a href="http://wa.me/549<%= lista_lugares[i].contacto %>" class="btn btn-block btn-outline-success">Enviar WP</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>  
+            </div>
+        </div>
         </div>
     </div>
 </div>
