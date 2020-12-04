@@ -5,17 +5,13 @@
         <div class="col-md-4">
             <div class="card mb-3">
                 <div class="card-body">
-                    <% if (lugar) { %>
-                        <form action="/lugar/guardar/<%= lugar.id %> " method="POST">
-                    <% }else{ %>
-                        <form action="/lugar" method="POST">
-                       <% } %> 
+                    <form action="/lugar<%= lugar ? '/guardar/' + lugar.id : ''%>" method="POST" autocomplete="off">
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
-                            <input type="text" name="nombre" id="nombre" class="form-control mb-1" value="<%= lugar ? lugar.nombre : '' %> ">
+                            <input type="text" name="nombre" id="nombre" class="form-control mb-1" value="<%= lugar ? lugar.nombre : '' %>">
 
                             <label for="direccion">Dirección</label>
-                            <input type="text" name="direccion" id="direccion" class="form-control mb-1" value="<%= lugar ? lugar.direccion :'' %> ">
+                            <input type="text" name="direccion" id="direccion" class="form-control mb-1" value="<%= lugar ? lugar.direccion :'' %>">
 
                             <label for="contacto">Contacto</label>
                             <input type="number" name="contacto" id="contacto" class="form-control mb-1" value=<%= lugar ? lugar.contacto : '' %>>
@@ -23,7 +19,7 @@
                             <% if (lugar) {%>
                                 <div class="row mt-4">
                                     <div class="col">
-                                        <a href="/lugar/delete/<%= lugar.id %> " class="btn btn-outline-danger btn-block mb-4">Borrar</a>
+                                        <a href="/lugar/delete/<%= lugar.id %>" class="btn btn-outline-danger btn-block mb-4">Borrar</a>
                                     </div>
                                     <div class="col">
                                         <button type="submit" class="btn btn-outline-primary btn-block">Guardar</a>
@@ -38,7 +34,7 @@
             </div>
         </div>
         <div class="col-md-8">
-            <div class="card">
+            <div class="card mb-4 d-none d-sm-block">
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered mt-4">
@@ -66,6 +62,34 @@
                     </div>
                 </div>
             </div>
+            <div class="card-group d-block d-sm-none mt-4">
+                <% for (var i = 0;i < lista_lugares.length; i++) {%>
+                    <div class="card fila" id="<%= lista_lugares[i].id %>">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h4 class="card-title"><%= lista_lugares[i].nombre %></h4>
+                                </div>
+                                <div class="col">
+                                    <p class="card-text text-right"><%= lista_lugares[i].direccion %></p>
+                                </div>
+                            </div>
+                            <p class="card-text">Contacto: <%= lista_lugares[i].contacto %></p>
+                            <div class="row">
+                                <div class="col">
+                                    <a href="/activo/<%= lista_lugares[i]._id %>" 
+                                        class="btn btn-outline-<%= lista_lugares[i].activo ? 'success' : 'dark' %>  btn-block">
+                                    <%= lista_lugares[i].activo ? 'Activo' : 'Inactivo' %> </a>
+                                </div>
+                                <div class="col">
+                                    <a href="http://wa.me/549<%= lista_lugares[i].contacto %>" class="btn btn-block btn-outline-success">Enviar WP</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>  
+            </div>
+        </div>
         </div>
     </div>
 </div>
