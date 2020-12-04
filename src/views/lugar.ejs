@@ -12,10 +12,10 @@
                        <% } %> 
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
-                            <input type="text" name="nombre" id="nombre" class="form-control mb-1" value="<%= lugar ? lugar.nombre : '' %> ">
+                            <input type="text" name="nombre" id="nombre" class="form-control mb-1" value="<%= lugar ? lugar.nombre : '' %>">
 
                             <label for="direccion">Dirección</label>
-                            <input type="text" name="direccion" id="direccion" class="form-control mb-1" value="<%= lugar ? lugar.direccion :'' %> ">
+                            <input type="text" name="direccion" id="direccion" class="form-control mb-1" value="<%= lugar ? lugar.direccion :'' %>">
 
                             <label for="contacto">Contacto</label>
                             <input type="number" name="contacto" id="contacto" class="form-control mb-1" value=<%= lugar ? lugar.contacto : '' %>>
@@ -23,7 +23,7 @@
                             <% if (lugar) {%>
                                 <div class="row mt-4">
                                     <div class="col">
-                                        <a href="/lugar/delete/<%= lugar.id %> " class="btn btn-outline-danger btn-block mb-4">Borrar</a>
+                                        <a href="/lugar/delete/<%= lugar.id %>" class="btn btn-outline-danger btn-block mb-4">Borrar</a>
                                     </div>
                                     <div class="col">
                                         <button type="submit" class="btn btn-outline-primary btn-block">Guardar</a>
