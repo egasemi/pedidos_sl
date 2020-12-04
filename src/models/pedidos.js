@@ -12,7 +12,10 @@ const pedidoSchema = new Schema({
         default: 0
     },
     celular: Number,
-    punto_retiro: String,
+    lugar: {
+        id: String,
+        nombre: String
+    }
     //fecha_pedido: Date,
     //fecha_modificacion: Date
 })
