@@ -1,0 +1,161 @@
+<%- include('partials/_header') %>
+<div class="container mt-4">
+    <h1 class="display mt-4">Productos</h1>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <form action="/producto<%= producto ? '/guardar/' + producto.id : ''%>" method="POST" autocomplete="off">
+                        <div class="form-group">
+                            <label for="codigo">Codigo</label>
+                            <input type="text" name="codigo" id="codigo" class="form-control mb-1" value="<%= producto ? producto.codigo :'' %>">
+
+                            <label for="nombre">Nombre</label>
+                            <input type="text" name="nombre" id="nombre" class="form-control mb-1" value="<%= producto ? producto.nombre : '' %>">
+
+                            <label for="marca">Marca</label>
+                            <input type="text" name="marca" id="marca" class="form-control mb-1" value="<%= producto ? producto.marca : '' %>">
+
+                            <label for="costo">Costo</label>
+                            <p class="mt-2 ml-2" style="position:absolute; z-index: 110;">
+                                <%= producto ? '$' + (producto.precio.costo / 100).toFixed(2) : '$0.00' %>
+                            </p>
+                            <input 
+                            style="color: transparent;" 
+                            type="number" 
+                            name="precio.costo" 
+                            id="costo" 
+                            class="form-control mb-1 precio" 
+                            value=<%= producto ? producto.precio.costo : '' %>>
+
+                            <label for="referencia">Referencia</label>
+                            <p class="mt-2 ml-2" style="position:absolute; z-index: 110;">
+                                <%= producto ? '$' + (producto.precio.referencia / 100).toFixed(2) : '$0.00' %>
+                            </p>
+                            <input 
+                            style="color: transparent;" 
+                            type="number" 
+                            name="precio.referencia" 
+                            id="referencia" 
+                            class="form-control mb-1 precio" 
+                            value=<%= producto ? producto.precio.referencia : '' %>>
+
+                            <label for="lista">Lista</label>
+                            <p class="mt-2 ml-2" style="position:absolute; z-index: 110;">
+                                <%= producto ? '$' + (producto.precio.lista / 100).toFixed(2) : '$0.00' %>
+                            </p>
+                            <input 
+                            style="color: transparent;"
+                            type="number" 
+                            name="precio.lista" 
+                            id="lista" 
+                            class="form-control mb-1 precio" 
+                            value=<%= producto ? producto.precio.lista : '' %>>
+
+                            <label for="stock">Stock</label>
+                            <input type="number" name="stock" id="stock" class="form-control mb-1" value=<%= producto ? producto.stock : '' %>>
+
+                            <% if (producto) {%>
+                                <div class="row mt-4">
+                                    <div class="col">
+                                        <a href="/producto/delete/<%= producto.id %>"
+                                            class="btn btn-outline-danger btn-block mb-4">
+                                            Borrar
+                                        </a>
+                                    </div>
+                                    <div class="col">
+                                        <button type="submit" class="btn btn-outline-primary btn-block">Guardar</a>
+                                    </div>
+                                </div>
+                            <% } else {%> 
+                                <button type="submit" class="btn btn-outline-success btn-block mt-3">Agregar</button>
+                                <% } %>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card mb-4 d-none d-sm-block">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered mt-4">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <td scope="col">Código</td>
+                                    <td scope="col">Nombre</td>
+                                    <td scope="col">Marca</td>
+                                    <td scope="col">Costo</td>
+                                    <td scope="col">Referencia</td>
+                                    <td scope="col">Lista</td>
+                                    <td scope="col">Stock</td>
+                                    <td scope="col">Activo</td>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for(var i = 0;i < lista_productos.length; i++) {%>
+                                    <tr id='<%= lista_productos[i].id %>' scope="row" class="fila">
+                                        <td scope="col"><%= lista_productos[i].codigo%></td>
+                                        <td scope="col"><%= lista_productos[i].nombre%></td>
+                                        <td scope="col"><%= lista_productos[i].marca%></td>
+                                        <td scope="col">$<%= (lista_productos[i].precio.costo / 100).toFixed(2)%></td>
+                                        <td scope="col">$<%= (lista_productos[i].precio.referencia / 100).toFixed(2)%></td>
+                                        <td scope="col">$<%= (lista_productos[i].precio.lista / 100).toFixed(2)%></td>
+                                        <td scope="col"><%= lista_productos[i].stock%></td>
+                                        <td scope="col"><a href="producto/activo/<%= lista_productos[i]._id %>" 
+                                            class="btn btn-outline-<%= lista_productos[i].activo ? 'success' : 'dark' %>  btn-block">
+                                        <%= lista_productos[i].activo ? 'Activo' : 'Inactivo' %> </a></td>
+                                    </tr>
+                                    <%}%>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card-group d-block d-sm-none mt-4">
+                <% for (var i = 0;i < lista_productos.length; i++) {%>
+                    <div class="card fila" id="<%= lista_productos[i].id %>">
+                        <div class="card-body">
+                            <h4 class="card-title"><%= lista_productos[i].nombre%>  -  <%= lista_productos[i].marca %></h4>
+                            <p class="card-text text-muted"><%= lista_productos[i].codigo %></p>
+                            <p class="card-text">Costo: $<%= (lista_productos[i].precio.costo / 100).toFixed(2)%></p>
+                            <p class="card-text">Referencia: $<%= (lista_productos[i].precio.referencia / 100).toFixed(2)%></p>
+                            <p class="card-text text-success">Lista: $<%= (lista_productos[i].precio.lista / 100).toFixed(2)%></p>
+                            <div class="row">
+                                <div class="col">
+                                    <a href="producto/activo/<%= lista_productos[i]._id %>" 
+                                        class="btn btn-outline-<%= lista_productos[i].activo ? 'success' : 'dark' %>  btn-block">
+                                    <%= lista_productos[i].activo ? 'Activo' : 'Inactivo' %> </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>  
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.fila').click(function() {
+        location.replace(`/producto/${this.id}`);
+    })
+    function decimal(){
+        var nro = $(this).val();
+        var displayFloat = $(this).prev()
+        if(nro.length > 2){
+            var enteros = nro.substring(0,nro.length - 2)
+            var decimales = nro.substring(nro.length, nro.length -2 )
+            var float = enteros + '.' + decimales
+            $(displayFloat).text('$' + float)
+        } else if (nro.length === 2){
+            $(displayFloat).text('$0.' + nro)
+        } else {
+            $(displayFloat).text('$0.0' + nro)
+        }
+    }
+    $('.precio').keyup(decimal)
+
+</script>
+<%- include('partials/_footer') %>
