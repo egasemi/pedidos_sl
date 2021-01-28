@@ -4,14 +4,14 @@ const router = express.Router();
 const Lugar = require('../models/lugar');
 
 //nuevo lugar
-router.post('/lugar', async (req,res) => {
+router.post('/', async (req,res) => {
     const lugar = new Lugar(req.body);
     await lugar.save();
     res.redirect('lugar');
 });
 
 // ver lugar
-router.get('/lugar/:id', async (req,res) => {
+router.get('/:id', async (req,res) => {
     const { id } = req.params;
     const lugar = await Lugar.findById(id);
     const lista_lugares = await Lugar.find();
@@ -22,7 +22,7 @@ router.get('/lugar/:id', async (req,res) => {
 });
 
 // ver lugares
-router.get('/lugar', async (req,res) => {
+router.get('/', async (req,res) => {
     const { id } = req.params;
     const lugar = await Lugar.findById(id);
     const lista_lugares = await Lugar.find();
@@ -42,14 +42,14 @@ router.get('/activo/:id', async (req,res) => {
 });
 
 // eliminar lugar
-router.get('/lugar/delete/:id', async (req, res) => {
+router.get('/delete/:id', async (req, res) => {
     const {id} = req.params;
     await Lugar.deleteOne({_id:id});
     res.redirect('/lugar')
 });
 
 // editar lugar
-router.post('/lugar/guardar/:id', async (req, res) => {
+router.post('/guardar/:id', async (req, res) => {
     const { id } = req.params;
     await Lugar.updateOne({_id:id},req.body);
     res.redirect('/lugar');

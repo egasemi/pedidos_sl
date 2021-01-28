@@ -1,54 +1,100 @@
 <%- include('partials/_header') %>
-
 <div class="container mt-4">
-    <a href="/lista">Volver</a>
-    <h1 class="display mt-4">Pedido</h1>
-    <form action="/edit/<%= pedido.id %> " method="POST" autocomplete="off">
-        <div class="form-group">
-    
-            <div class="row ml-1">
-                <label for="enteras">Enteras </label>
-            </div>
-            <input type="number" name="enteras" id="enteras" class="form-control mb-2" value=<%= pedido.enteras %>>
-    
-            <div class="row ml-1">
-                <label for="enteras">Descremadas </label>
-            </div>
-            <input type="number" name="descremadas" id="descremadas" class="form-control mb-2" value=<%= pedido.descremadas %>>
-    
-            <label for="celu">Celular</label>
-            <input type="number" name="celular" id="celular" class="form-control mb-2" value=<%= pedido.celular %>>
-    
-            <label for="lugar">Punto de Retiro</label>
-            <select name="lugar.id" id="lugar" class="form-control mb-4">
-                <option value="" disabled selected>Elegí un punto de retiro</option>
-                <% for(var i=0; lugares.length > i; i ++) { %>
-                    <option value="<%= lugares[i].id %>"<%= (pedido.lugar.id === lugares[i].id) ? 'selected' : ''  %> data-nombre='<%= lugares[i].nombre %>' id="<%= lugares[i].id %>" >
-                        <%= lugares[i].nombre + ' ' + lugares[i].direccion%>
-                    </option>
-                <% } %>
-            </select>
-            <input type="text" name="lugar.nombre" value="" id="lugarNombre" value="" class="d-none">
+    <h1 class="display mt-4">Pedidos</h1>
+    <div class="row">
+        <div class="col-md-4">
 
-            <div class="row">
-                <div class="col">
-                    <a href="/pedido/delete/<%= pedido.id %>" class="btn btn-outline-danger btn-block">Eliminar</a>
+            <form action="/pedido<%= pedido ? '/guardar/' + pedido.id : ''%>" method="POST" autocomplete="off">
+                <div class="form-group">
+                    <% for( let i = 0; i < lista_productos.length; i++ ) { %>
+                        
+                        <div class="col-mb-4">
+                            <div class="card mb-2">
+                                <div class="card-body">
+                                    <label for="<%= lista_productos[i]._id %>"><%= lista_productos[i].nombre %></label>
+
+                                    <select type="number" 
+                                        name="items[<%=i%>].[cantidad]" 
+                                        class="form-control mb-1"
+                                        required>
+
+                                        <option value="0">Cantidad</option>
+
+                                        <% for( let k = 0; k < 10; k++ ) { %>
+                                            <option value="<%= k+1 %>" <%= pedido ? ((k+1 === resumen[lista_productos[i]._id]) ? 'selected' : '') : '' %> >
+                                                <%= k+1 %>
+                                            </option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <input type="text" 
+                                    name="items[<%=i%>].[producto]" 
+                                    value="<%= lista_productos[i]._id %>" 
+                                    class="d-none">                        
+                            </div>
+                        </div>
+                    <% } %>
+                    
+                    <label for="contacto">Contacto</label>
+                    <input type="number" 
+                        name="contacto" 
+                        id="contacto" 
+                        class="form-control mb-1" 
+                        value="<%= pedido ? pedido.contacto : '' %>" 
+                        required>
+
+                    <label for="lugar">Lugares</label>
+                    <select name="lugar" id="lugar" class="form-control mb-1" required>
+                        <option value="" disabled selected>Elegí un lugar de retiro</option>
+                        <% for(var i = 0;i < lista_lugares.length; i++) {%>
+                            <option value="<%= lista_lugares[i].id %>" 
+                                <%= pedido ? ((pedido.lugar.id === lista_lugares[i].id) ? 'selected' : '') : '' %>>
+                                <%= lista_lugares[i].nombre %> - <%= lista_lugares[i].direccion %>
+                            </option>
+                            <%}%>
+                    </select>
+
+                    <% if (pedido) {%>
+                        <div class="row mt-4">
+                            <div class="col">
+                                <a href="/pedido/delete/<%= pedido.id %>" class="btn btn-outline-danger btn-block mb-4">Borrar</a>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-outline-primary btn-block">Guardar</a>
+                            </div>
+                        </div>
+                    <% } else {%> 
+                        <button type="submit" class="btn btn-outline-success btn-block mt-3">Agregar</button>
+                        <% } %>
                 </div>
-                <div class="col">
-                    <button type="submit" class="btn btn-outline-primary btn-block" id="guardar">Guardar</button>
-                </div>
-            </div>
+            </form>
+
         </div>
-    </form>
+        <div class="col-md-8">
+            <table class="table table-bordered">
+                <thead>
+                    <tr scope="row">
+                        <td>Items</td>
+                        <td>Contacto</td>
+                        <td>Lugar</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for( let i = 0; i < lista_pedidos.length; i++ ) { %>
+                        <tr scope="row" id="<%= lista_pedidos[i]._id %>" class="fila">
+                            <td><%= lista_pedidos[i].items.length %></td>
+                            <td><%= lista_pedidos[i].contacto %></td>
+                            <td><%= lista_pedidos[i].lugar.nombre %></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <script>
-    $(document).ready(function(){
-        var data = $('select option:selected').data();
-        $("#lugarNombre").val(data.nombre);
+    $('.fila').click(function() {
+        location.replace(`/pedido/${this.id}`);
     })
-    $('#lugar').change(function(){
-        var data = $('select option:selected').data();
-        $("#lugarNombre").val(data.nombre);
-})
 </script>
 <%- include('partials/_footer') %>
