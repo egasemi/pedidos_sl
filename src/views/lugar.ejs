@@ -52,7 +52,7 @@
                                         <td scope="col"><%= lista_lugares[i].nombre%></td>
                                         <td scope="col"><%= lista_lugares[i].direccion%></td>
                                         <td scope="col"><%= lista_lugares[i].contacto%></td>
-                                        <td scope="col"><a href="/activo/<%= lista_lugares[i]._id %>" 
+                                        <td scope="col"><a href="lugar/activo/<%= lista_lugares[i]._id %>" 
                                             class="btn btn-outline-<%= lista_lugares[i].activo ? 'success' : 'dark' %>  btn-block">
                                         <%= lista_lugares[i].activo ? 'Activo' : 'Inactivo' %> </a></td>
                                     </tr>
@@ -77,7 +77,7 @@
                             <p class="card-text">Contacto: <%= lista_lugares[i].contacto %></p>
                             <div class="row">
                                 <div class="col">
-                                    <a href="/activo/<%= lista_lugares[i]._id %>" 
+                                    <a href="producto/activo/<%= lista_lugares[i]._id %>" 
                                         class="btn btn-outline-<%= lista_lugares[i].activo ? 'success' : 'dark' %>  btn-block">
                                     <%= lista_lugares[i].activo ? 'Activo' : 'Inactivo' %> </a>
                                 </div>

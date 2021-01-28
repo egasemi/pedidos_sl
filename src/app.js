@@ -16,8 +16,9 @@ mongoose.connect(process.env.MONGODB_URI,{
     .catch(err => console.log(err))
 
 // import routes
-const indexRoutes = require('./routes/index');
-const lugarRoutes  = require('./routes/lugar')
+const pedidoRoutes = require('./routes/pedido');
+const lugarRoutes  = require('./routes/lugar');
+const productoRoutes = require('./routes/producto')
 
 // settings
 app.set('port', process.env.PORT || 3000);
@@ -26,10 +27,12 @@ app.set('view engine', 'ejs');
 
 //middelwares
 app.use(morgan('dev'));
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true}));
 
 // routes
-app.use('/', indexRoutes,lugarRoutes);
+app.use('/pedido',pedidoRoutes);
+app.use('/lugar', lugarRoutes);
+app.use('/producto', productoRoutes);
 
 // server
 app.listen(app.get('port'), () => {
